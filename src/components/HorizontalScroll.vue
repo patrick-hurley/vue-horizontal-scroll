@@ -2,6 +2,8 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 const horizontalScrollWrapper = ref<HTMLInputElement | null>(null)
 const horizontalScrollContent = ref<HTMLInputElement | null>(null)
+const showBoxShadowLeft = ref(false)
+const showBoxShadowRight = ref(false)
 
 /*
 Apply a box shadow to the left of right of the container depending
@@ -13,16 +15,16 @@ function updateBoxShadow() {
     const horizontalScrollWidth =
       horizontalScrollWrapper.value.scrollWidth - horizontalScrollWrapper.value.clientWidth
     if (scroll_pos === 0) {
-      horizontalScrollWrapper.value.classList.remove('box-shadow-left')
+      showBoxShadowLeft.value = false
     }
     if (scroll_pos > 10) {
-      horizontalScrollWrapper.value.classList.add('box-shadow-left')
+      showBoxShadowLeft.value = true
     }
     if (scroll_pos < horizontalScrollWidth) {
-      horizontalScrollWrapper.value.classList.add('box-shadow-right')
+      showBoxShadowRight.value = true
     }
     if (scroll_pos > horizontalScrollWidth - 10) {
-      horizontalScrollWrapper.value.classList.remove('box-shadow-right')
+      showBoxShadowRight.value = false
     }
   }
 }
@@ -46,7 +48,11 @@ onUnmounted(() => {
 
 <template>
   <div class="horizontal-scroll">
-    <div ref="horizontalScrollWrapper" class="horizontal-scroll--wrapper">
+    <div
+      ref="horizontalScrollWrapper"
+      class="horizontal-scroll--wrapper"
+      :class="{ 'box-shadow-left': showBoxShadowLeft, 'box-shadow-right': showBoxShadowRight }"
+    >
       <div ref="horizontalScrollContent" class="horizontal-scroll--content">
         <slot></slot>
       </div>
