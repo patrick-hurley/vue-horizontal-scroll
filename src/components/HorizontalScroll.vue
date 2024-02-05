@@ -7,7 +7,7 @@ const showBoxShadowRight = ref(false)
 
 /*
 Apply a box shadow to the left of right of the container depending
-on whether there is a scrollbar visible, and its based on its positioning
+on whether there is a scrollbar visible, and based on its positioning
 */
 function updateBoxShadow() {
   if (horizontalScrollWrapper.value) {
